@@ -5,20 +5,23 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import ParticlesBg from 'particles-bg';
 import React, {Component} from 'react';
+import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      input: ''
+      input: '',
+      imageUrl: ''
     }
   }
 
   onInputChange = (event) => {
-    console.log(event);
+    this.setState({input: event.target.value});
   }
 
   onButtonSubmit = () => {
+    this.setState({imageUrl: this.state.input});
     console.log("click");
   };
 
@@ -29,12 +32,8 @@ class App extends Component {
         <Logo />
         <Rank />
         <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+        <FaceRecognition imageUrl={this.state.imageUrl}/>
         <ParticlesBg type="color" bg={true} />
-        {
-          /*
-          <FaceRecognition />
-          */
-        }
       </div>
     );
   }
