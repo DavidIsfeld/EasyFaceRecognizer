@@ -12,9 +12,29 @@ class App extends Component {
     super();
     this.state = {
       input: '',
-      imageUrl: ''
+      imageUrl: '',
+      box: {}
     }
   }
+
+  calculateFaceLocation = (data) => {
+    const image = document.getElementById("inputimage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+    console.log(width);
+    console.log(height);
+
+    return {
+      leftCol: width,
+      topRow:  height,
+      rightCol: -width,
+      bottomRow: -height
+    };
+  };
+
+  displayFaceBox = (box) => {
+    this.setState({box: box});
+  };
 
   onInputChange = (event) => {
     this.setState({input: event.target.value});
@@ -22,7 +42,7 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input});
-    console.log("click");
+    this.displayFaceBox(this.calculateFaceLocation(""));
   };
 
   render() {
@@ -32,7 +52,7 @@ class App extends Component {
         <Logo />
         <Rank />
         <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-        <FaceRecognition imageUrl={this.state.imageUrl}/>
+        <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl}/>
         <ParticlesBg type="color" bg={true} />
       </div>
     );
