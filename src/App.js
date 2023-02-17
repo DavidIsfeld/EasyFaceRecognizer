@@ -6,6 +6,7 @@ import Rank from './components/Rank/Rank';
 import ParticlesBg from 'particles-bg';
 import React, {Component} from 'react';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
+import Signin from './components/Signin/Signin';
 
 class App extends Component {
   constructor() {
@@ -49,6 +50,7 @@ class App extends Component {
     return (
       <div className="App">
         <Navigation />
+        <Signin />
         <Logo />
         <Rank />
         <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
