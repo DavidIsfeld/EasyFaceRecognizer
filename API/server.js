@@ -19,7 +19,13 @@ app.get('/', (req, res) => {
 app.post('/signin', (req, res) => {
     bcrypt.compare(req.body.password, database.users[database.users.length-1].password, function(err, resB) {
         if (resB) {
-            res.json('success');
+            res.json({
+                id: database.users[0].id,
+                name: database.users[0].name,
+                email: database.users[0].email,
+                entries: database.users[0].entries,
+                joined: database.users[0].joined
+            });
         } else {
             res.status(400).json("error logging in");
         }
@@ -39,7 +45,13 @@ app.post('/register', (req, res) => {
                 joined: new Date()
             });
         
-            res.json(database.users[database.users.length - 1]);
+            res.json({
+                id: "125",
+                name: name,
+                email: email,
+                entries: 0,
+                joined: new Date()
+            });
         });
     });
 });
