@@ -48,17 +48,28 @@ app.post('/register', (req, res) => {
     const {email, name, password} = req.body;
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(password, salt, function(err, hash) {
-            db('users')
-                .returning('*')
-                .insert({
-                    name: name,
-                    email: email,
-                    joined: new Date()
+            db.transaction(trx => {
+                trx.insert({
+                    hash: hash,
+                    email: email
                 })
-                .then(user => {
-                    res.json(user[0]);
+                .into('login')
+                .returning('email')
+                .then(loginEmail => {
+                    trx('users')
+                        .returning('*')
+                        .insert({
+                            name: name,
+                            email: loginEmail[0].email,
+                            joined: new Date()
+                        })
+                        .then(user => {
+                            res.json(user[0]);
+                        });
                 })
-                .catch(err => res.status(400).json('unable to register'));
+                .then(trx.commit)
+                .catch(trx.rollback);
+            }).catch(rError => res.status(400).json('unable to register'));
         });
     });
 });
