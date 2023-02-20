@@ -19,29 +19,33 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const database = {
-    users: [
-    ]
-}
-
 app.get('/', (req, res) => {
-    res.send(database.users);
+    res.send('success');
 });
 
 app.post('/signin', (req, res) => {
-    bcrypt.compare(req.body.password, database.users[database.users.length-1].password, function(err, resB) {
-        if (resB) {
-            res.json({
-                id: database.users[0].id,
-                name: database.users[0].name,
-                email: database.users[0].email,
-                entries: database.users[0].entries,
-                joined: database.users[0].joined
-            });
-        } else {
-            res.status(400).json("error logging in");
-        }
-    });
+    db.select('email', 'hash').from('login')
+        .where('email', '=', req.body.email)
+        .then(data => {
+            if (data.length) {
+                bcrypt.compare(req.body.password, data[0].hash, function(err, resB) {
+                    if (resB) {
+                        db.select('*').from('users')
+                            .where('email', '=', req.body.email)
+                            .then(user => {
+                                res.json(user[0]);
+                            })
+                            .catch(sErr => {
+                                res.status(400).json("unable to get user");
+                            });
+                    } else {
+                        res.status(400).json("wrong credentials");
+                    }
+                });
+            } else {
+                res.status(400).json("wrong credentials");
+            }
+        });
 });
 
 app.post('/register', (req, res) => {
