@@ -1,6 +1,18 @@
 const express = require("express");
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
+const knex = require('knex');
+
+const db = knex({
+    client: 'pg',
+    connection: {
+      host : '127.0.0.1',
+      port : 5432,
+      user : 'postgres',
+      password : 'test',
+      database : 'smart-brain'
+    }
+}); 
 
 const app = express();
 
@@ -36,14 +48,11 @@ app.post('/register', (req, res) => {
     const {email, name, password} = req.body;
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(password, salt, function(err, hash) {
-            database.users.push({
-                id: "125",
+            db('users').insert({
                 name: name,
                 email: email,
-                password: hash,
-                entries: 0,
                 joined: new Date()
-            });
+            }).then(console.log);
         
             res.json({
                 id: "125",
