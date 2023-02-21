@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
@@ -36,6 +38,8 @@ app.get('/profile/:id', profile.handleProfile(db));
 
 app.put('/image', image.handleImage(db));
 
-app.listen(3000, () => {
+app.post('/imageurl', image.handleApiCall);
+
+app.listen(process.env.PORT, () => {
     console.log('app is running on port 3000');
 });
