@@ -1,7 +1,12 @@
 import React from 'react';
 import './ImageLinkForm.css';
 
-const ImageLinkForm = ({onInputChange, onButtonSubmit}) => {
+const ImageLinkForm = ({onInputChange, onButtonSubmit, onClearInput}) => {
+    const clearLocalInput = () => {
+        const inputField = document.getElementById('identifyForClear');
+        inputField.value = '';
+    }
+
     return (
         <div>
             <p className='f3'>
@@ -9,12 +14,18 @@ const ImageLinkForm = ({onInputChange, onButtonSubmit}) => {
             </p>
             <div className='center'>
                 <div className='form center pa4 br3 shadow-5'>
-                    <input type="text" className='f4 pa2 w-70 center' onChange={onInputChange} />
+                    <input type="text" className='f4 pa2 w-70 center' id='identifyForClear' onChange={onInputChange} />
                     <button
                         className='w-30 grow f4 link ph3 pv2 dib white bg-light-purple'
                         onClick={onButtonSubmit}
                     >
                         Detect
+                    </button>
+                    <button
+                        className='w-30 grow f4 link ph3 pv2 dib white bg-light-purple'
+                        onClick={clearLocalInput}
+                    >
+                        Clear Link
                     </button>
                 </div>
             </div>
