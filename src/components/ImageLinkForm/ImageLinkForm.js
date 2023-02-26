@@ -10,7 +10,13 @@ const ImageLinkForm = ({onInputChange, onButtonSubmit, onClearInput}) => {
     return (
         <div>
             <p className='f3'>
-                {'This magic brain will detect faces in your pictures. Give it a try!'}
+                {'This website will detect faces in your pictures. Give it a try by pasting in a link to an image!'}
+            </p>
+            <p className='f3'>
+                {'Please make sure that the links end in an image format (.jpg, .png etc) as otherwise it may not work.'}
+            </p>
+            <p className='f3'>
+                {'If using google images the way to do this is often to select images first before right clicking on them to get the link.'}
             </p>
             <div className='center'>
                 <div className='form center pa4 br3 shadow-5'>
